@@ -11,7 +11,7 @@ const MongoClient = mongodb.MongoClient;
 
 const dotenv = require("dotenv").config();
 
-const URL= process.env.DB;
+const URL = process.env.DB;
 
 const bcryptjs = require('bcryptjs');
 
@@ -33,13 +33,10 @@ let auth = function (req , res , next){
         let verify = jwt.verify(req.headers.authorization , SECRET);
         if(verify){
             console.log(verify)
-            // if( req.userCheck = verify._id){
+            
                 req.userCheck = verify._id;
                 next();
-            // }else{
-                // req.adminCheck = verify._id;
-                // next();
-            // }
+          
           
         }
     }else{
@@ -141,17 +138,17 @@ app.post("/userlogin", async(req, res) => {
          if(userCheck){
             const match = await bcryptjs.compare(req.body.password, userCheck.password);
             if(match){
-                const token = jwt.sign({_id : userCheck._id}, SECRET , {expiresIn : "5m"});
-                res.status(200).json({
+                const token = jwt.sign({_id : userCheck._id}, SECRET );
+                res.json({
                     message : "User logged in successfully",
                     token
                 })
             }else{
-                res.status(401).json({error : "Invalid password"})
+                res.json({error : "Invalid password"})
                 
             }
          }else{
-            res.status(401).json({
+            res.json({
                 error : "User not found"
             })
          }
@@ -213,17 +210,17 @@ app.post("/adminlogin", async(req, res) => {
             const match = await bcryptjs.compare(req.body.password, adminCheck.password);
             if(match){
                 const token = jwt.sign({_id : adminCheck._id}, SECRET , {expiresIn : "5m"});
-                res.status(200).json({
+                res.json({
                     message : "admin logged in successfully",
                     token
                 })
             }else{
-                res.status(401).json({
+                res.json({
                     error : "Password is incorrect"
                 })
             }
          }else{
-            res.status(401).json({
+            res.json({
                 error : "admin not found"
             })
          }
@@ -341,20 +338,20 @@ app.post("/movies", async(req, res) => {
 
 // post many 
 
-app.post("/movies", async(req, res) => {
-    try{
-        const connection = await MongoClient.connect(URL);
-        const db = connection.db('hackathon');
-        await db.collection('moviedatas').insertMany(req.body);
-        await connection.close();
-            res.status(200).send({
-                message : "Movies added successfully"
-            })
-    }
-    catch(error){
-        console.log(error)
-    }
-})
+// app.post("/movies", async(req, res) => {
+//     try{
+//         const connection = await MongoClient.connect(URL);
+//         const db = connection.db('hackathon');
+//         await db.collection('moviedatas').insertMany(req.body);
+//         await connection.close();
+//             res.status(200).send({
+//                 message : "Movies added successfully"
+//             })
+//     }
+//     catch(error){
+//         console.log(error)
+//     }
+// })
 
 
 app.get("/movies", async(req, res) => {
