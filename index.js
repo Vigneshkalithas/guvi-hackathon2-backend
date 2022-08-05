@@ -33,13 +33,13 @@ let auth = function (req , res , next){
         let verify = jwt.verify(req.headers.authorization , SECRET);
         if(verify){
             console.log(verify)
-            if( req.userCheck = verify._id){
-                // req.userCheck = verify._id;
+            // if( req.userCheck = verify._id){
+                req.userCheck = verify._id;
                 next();
-            }else{
-                req.adminCheck = verify._id;
-                next();
-            }
+            // }else{
+                // req.adminCheck = verify._id;
+                // next();
+            // }
           
         }
     }else{
