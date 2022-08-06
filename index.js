@@ -19,11 +19,20 @@ const jwt = require('jsonwebtoken');
 
 const SECRET = process.env.SECRET;
 
+const mongoose = require('mongoose');
+
 app.use(express.json());
 
 app.use(cors({
     orgin : "*"
 }));
+
+mongoose.connect(process.env.DB, {
+    useNewUrlParser: true,
+})
+.then(() => console.log("DB Connected..!"))
+.catch(err => console.log(err))
+
 
 
 
