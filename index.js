@@ -9,9 +9,9 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
 
-const dotenv = require("dotenv").config();
+// const dotenv = require("dotenv").config();
 
-const URL = process.env.DB;
+const URL = "mongodb://localhost:27017";
 
 const bcryptjs = require('bcryptjs');
 
@@ -36,22 +36,22 @@ app.use(cors({
 
 
 
-let auth = function (req , res , next){
-    console.log(req.headers)
-    if(req.headers.authorization){
-        let verify = jwt.verify(req.headers.authorization , SECRET);
-        if(verify){
-            console.log(verify)
+// let auth = function (req , res , next){
+//     console.log(req.headers)
+//     if(req.headers.authorization){
+//         let verify = jwt.verify(req.headers.authorization , SECRET);
+//         if(verify){
+//             console.log(verify)
             
-                req.userCheck = verify._id;
-                next();
+//                 req.userCheck = verify._id;
+//                 next();
           
           
-        }
-    }else{
-        res.status(401).send({message : "You are not authorized"});
-    }
-}
+//         }
+//     }else{
+//         res.status(401).send({message : "You are not authorized"});
+//     }
+// }
 
 
 // user Register 
